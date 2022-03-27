@@ -72,3 +72,6 @@ class Kosaraju{
         return res;
     }
 }; 
+
+//Kosaraju kj(n,adj);
+//vector <vector <int>> components = kj.SCC();
