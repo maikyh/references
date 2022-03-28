@@ -5,7 +5,7 @@ struct Point
     Point(double a=0, double b=0) { x=a; y=b;} //constructor 
 }; 
 
-ll area_of_polygon(int vcount,Point polygon[]) { //8173. Figuras y palitos
+ll area_of_polygon(int vcount,Point polygon[]) { 
     int i; 
     ll s; 
     if (vcount<3) 
