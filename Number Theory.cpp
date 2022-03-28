@@ -23,8 +23,27 @@ ll gcd(ll a, ll b){
     return gcd(b, a % b);
 }
 
+ll lcm(ll a, ll b){
+	return b * (a / gcd(a, b));
+}
+
+ll gcd(const vector<ll>& nums){
+	ll ans = 0;
+	for(ll num : nums) ans = gcd(ans, num);
+	return ans;
+}
+
 ll ceil_div(ll a, ll b) {
     return a / b + ((a ^ b) > 0 && a % b != 0);
+}
+
+ll floor_div(ll a, ll b){
+	if((a >= 0 && b > 0) || (a < 0 && b < 0)){
+		return a / b;
+	}else{
+		if(a % b == 0) return a / b;
+		else return a / b - 1;
+	}
 }
 
 bool isprime(ll n) { 
@@ -152,6 +171,19 @@ void sieve(int n) {
     prime[1] = prime[0] = 0;
 }
 
+vector<lli> divsSum;
+vector<vector<int>> divs;
+void divisorsSieve(int n){
+	divsSum.resize(n + 1, 0);
+	divs.resize(n + 1);
+	for(int i = 1; i <= n; ++i){
+		for(int j = i; j <= n; j += i){
+			divsSum[j] += i;
+			divs[j].push_back(i);
+		}
+	}
+}
+
 //Divisores de un numero n
 vector<ll> getdivs(ll n) {
     vector<ll> divs;
@@ -164,4 +196,80 @@ vector<ll> getdivs(ll n) {
     erase_duplicates(divs);
     // sort(all(divs));
     return divs;
+}
+string decimalToBaseB(lli n, lli b){
+	string ans = "";
+	lli d;
+	do{
+		d = n % b;
+		if(0 <= d && d <= 9) ans = (char)(48 + d) + ans;
+		else if(10 <= d && d <= 35) ans = (char)(55 + d) + ans;
+		n /= b;
+	}while(n != 0);
+	return ans;
+}
+
+lli baseBtoDecimal(const string & n, lli b){
+	lli ans = 0;
+	for(const char & d : n){
+		if(48 <= d && d <= 57) ans = ans * b + (d - 48);
+		else if(65 <= d && d <= 90) ans = ans * b + (d - 55);
+		else if(97 <= d && d <= 122) ans = ans * b + (d - 87);
+	}
+	return ans;
+}
+
+string decimalToRoman(int n){
+	int d, b = 0;
+	string ans = "";
+	vector<vector<char>> datos = {{'I', 'V'}, {'X', 'L'}, {'C', 'D'}, {'M', '\0'}};
+	int miles = n / 1000;
+	do{
+		string tmp = "";
+		d = n % 10;
+		n /= 10;
+		if(b < 3){
+			if(0 <= d && d <= 3){
+				tmp.append(d, datos[b][0]);
+			}else if(d == 4){
+				tmp += datos[b][0];
+				tmp += datos[b][1];
+			}else if(5 <= d && d <= 8){
+				tmp += datos[b][1];
+				tmp.append(d - 5, datos[b][0]);
+			}else if(d == 9){
+				tmp += datos[b][0];
+				tmp += datos[b + 1][0];
+			}
+		}else{
+			tmp.append(miles, 'M');
+			ans = tmp + ans;
+			break;
+		}
+		ans = tmp + ans;
+		b++;
+	}while(n != 0);
+	return ans;
+}
+
+int romanToDecimal(string n){
+	int ans = 0;
+	char curr, prev;
+	bool f = false;
+	map<char, int> datos = {{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
+	for(int i = n.size() - 1; i >= 0; i--){
+		curr = n[i];
+		if(i > 0) prev = n[i - 1];
+		if(curr == 'V' && prev == 'I') ans += 4, f = true;
+		else if(curr == 'X' && prev == 'I') ans += 9, f = true;
+		else if(curr == 'L' && prev == 'X') ans += 40, f = true;
+		else if(curr == 'C' && prev == 'X') ans += 90, f = true;
+		else if(curr == 'D' && prev == 'C') ans += 400, f = true;
+		else if(curr == 'M' && prev == 'C') ans += 900, f = true;
+		else{
+			if(!f) ans += datos[curr];
+			f = false;
+		}
+	}
+	return ans;
 }
