@@ -148,7 +148,6 @@ vector<int> get_all_modular_inverses(int p) {
     for (int k = p - 2; k > 0; k--) {
         inverse_factorials[k] = 1LL * inverse_factorials[k + 1] * (k + 1) % p;
     }
-
     vector<int> inverses(p);
     int factorial = 1;
     for (int k = 1; k < p; k++) {
@@ -197,6 +196,28 @@ vector<ll> getdivs(ll n) {
     // sort(all(divs));
     return divs;
 }
+
+//first n multiples of p, modulo q, summed.
+///////////////////START HERE////////////////////////
+ll count(ll a, ll b, ll c, ll n) {
+    if (n <= 0) return 0;
+    if (n == 1) return b/c;
+    ll tmp = 0;
+    tmp += (a/c) * ((n-1)*n/2);
+    tmp += (b/c) * n;
+    a %= c, b %= c;
+    if (a == 0) return tmp;
+    return tmp + count(c, (a*n+b)%c, a, (a*n+b)/c);
+}
+void solve(){
+	ll p,q,n;
+	cin >> p >> q >> n
+	ll sum = p*n*(n+1)/2ll, tmp = count(p, p, q, n) * q;
+	ll ans = sum - tmp;
+	cout<<ans<<'\n';
+}
+/////////////////END HERE//////////////////////////////
+
 string decimalToBaseB(lli n, lli b){
 	string ans = "";
 	lli d;
