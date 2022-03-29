@@ -18,6 +18,11 @@ struct dsu{
         _size = n;
     }
 
+    void make_set(int u) {
+        P[u] = u;
+        R[u] = 1;
+    }
+
     int get(int x){ // find o root   get
         if (P[x] != x) P[x] = get(P[x]);
         return P[x];
