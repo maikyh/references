@@ -1,5 +1,5 @@
 struct dsu{
-    static const int MAXN=1e6+1;
+    static const int MAXN=2 * 1e5+1;
     int P[MAXN], R[MAXN];
     int _size;
     void init(int n){ // init
@@ -7,6 +7,11 @@ struct dsu{
         for(int i = 0; i <= n; i++)
             P[i] = i, R[i] = 1;
         _size = n;
+    }
+
+    void make_set(int u) {
+        P[u] = u;
+        R[u] = 1;
     }
 
     int get(int x){ // find o root   get
