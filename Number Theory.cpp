@@ -208,6 +208,28 @@ vector<ll> getdivs(ll n) {
     return divs;
 }
 
+//Given n, how many numbers from 1 to n aren´t divisible by the numbers from vector 'a';
+bitset<2e7+7> sieve;
+vi primes;
+int power_set(vi &A, int n) {
+    ll sum = 0;
+    for(int msk=1; msk<(1<<A.size()); msk++) {
+
+        ll lcm = 1; int bits = 0;
+        for(int i=0; i<A.size(); i++) {
+            if(msk & (1<<i)) {
+                ++bits;
+                lcm = lcm * (A[i] / __gcd(lcm, (ll)A[i]));
+            }
+        }
+
+        if(bits & 1) sum += n / lcm;
+        else sum -= n / lcm;
+    }
+
+    return sum;
+}
+
 //first n multiples of p, modulo q, summed.
 ///////////////////START HERE////////////////////////
 ll count(ll a, ll b, ll c, ll n) {
