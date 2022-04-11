@@ -229,6 +229,7 @@ int power_set(vi &A, int n) {
 
     return sum;
 }
+ll ans = n - power_set(a,n);
 
 //first n multiples of p, modulo q, summed.
 ///////////////////START HERE////////////////////////
