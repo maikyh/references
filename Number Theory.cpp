@@ -209,7 +209,7 @@ vector<ll> getdivs(ll n) {
 }
 
 //Given n, how many numbers from 1 to n aren´t divisible by the numbers from vector 'a';
-bitset<2e7+7> sieve;
+bitset<mxN> sieve;
 vi primes;
 int power_set(vi &A, int n) {
     ll sum = 0;
