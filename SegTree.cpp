@@ -45,6 +45,8 @@ template<class T> struct Seg {
 };
 
 //Range Update Queries
+//increase each value in range [a,b] by u
+//what is the value at position k?
 ///////////////////START HERE////////////////////////
 void solve(){
     int n,q;
