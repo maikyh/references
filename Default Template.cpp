@@ -83,4 +83,4 @@ int main(){
 
 // se vuelve más fácil
 // cada día es un poco más fácil, pero tienes que hacerlo cada día
-// es la parte difícil, pero se vuelve más fácil
+// esa es la parte difícil, pero se vuelve más fácil
