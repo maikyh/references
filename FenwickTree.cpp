@@ -1,8 +1,9 @@
+const int mxN = 1e5 + 10;
 template <typename T>
 struct Fenwick {
     const int n;
     vector<int> a;
-    Fenwick(int n) : n(n), a(n) {}
+    Fenwick(int n) : n(n+1), a(n+1) {}
     void add(int x, int v) {
         for (int i = x + 1; i <= n; i += i & -i) {
             a[i - 1] += v;
@@ -30,11 +31,13 @@ void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i]; 
+    FOR(i,0,n){
+        cin >> a[i];
         a[i]--;
     }
+
     Fenwick<int> fen(n);
+    
     ll ans = 0;
     FOR(i,0,n) {
         ans += fen.rangeSum(a[i],n);
@@ -42,4 +45,4 @@ void solve(){
     }
   
     cout << ans << "\n";
-}        
+}                 
