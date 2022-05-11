@@ -1,49 +1,65 @@
-struct dijkstra {
-  int n;
-  const ll inf = 4e18;
-  vector<ll> dists; /* for a single run */
-  vector<int> par;
-  vector<bool> vis;
-  vector<vector<pair<ll, int> > > edges; /* weight, to */
-  
-  void init(int s) {
-    n = s;
-    dists = vector<ll>(n);
-	  vis = vector<bool>(n);
-    par = vector<int>(n);
-    edges = vector<vector<pair<ll, int> > >(n);
-  }
-
-  void edge(int a, int b, ll wt) {
-    edges[a].push_back(make_pair(wt, b));
-    edges[b].push_back(make_pair(wt, a));
-  }
-
-  using ptype = pair<ll, int>;
-  void run(int src) {
-    fill(dists.begin(), dists.end(), inf);
-	  fill(vis.begin(), vis.end(), false);
-    fill(par.begin(), par.end(), -1);
-
-    priority_queue<ptype, vector<ptype>, greater<ptype>> pq;
-    dists[src] = 0;
-    pq.push(make_pair(0, src));
-    while (!pq.empty()) {
-      ptype foc = pq.top();
-      pq.pop();
-	  
-	    if (vis[foc.s]) continue;
-	    vis[foc.s] = 1;
-	  
-      dists[foc.s] = min(dists[foc.s], foc.f);
-      for (ptype x: edges[foc.s]) {
-        ll d = dists[foc.s] + x.f;
-        if (d < dists[x.s]) {
-          dists[x.s] = d;
-          par[x.s] = foc.s;
-          pq.push(make_pair(d, x.s));
+const int mxN = 101;
+int vis[100005], dis[100005];
+vpi adj[100005];
+int vis2[100005], dis2[100005];
+vpi adj2[100005];
+void solve(){
+    int n,m; 
+    while(cin >> n >> m){
+        clr(vis,0);
+        clr(dis,0);
+        clr(adj,0);
+        clr(vis2,0);
+        clr(dis2,0);
+        clr(adj2,0);
+        FOR(i,0,m){
+            int u,v,num,w; 
+            cin >> u >> v >> num >> w;
+            if(num == 0)
+                adj[u].pb({v,w});
+            else
+                adj2[u].pb({v,w});
         }
-      }
+
+        //dijkstra 1
+        FOR(i,2,n+1) dis[i]=INF;
+        priority_queue<pi,vpi,greater<pi>> q;
+        q.push({0,1});
+        while(!q.empty()){
+            int u = q.top().se; q.pop();
+            if (vis[u]) continue;
+            vis[u]=1;
+            for (auto i : adj[u]){
+                int v = i.fi;
+                int w = i.se;
+                if (dis[v]>dis[u]+w){
+                    dis[v] = dis[u]+w;
+                    q.push({dis[v],v});
+                }
+            }
+        }
+        // FOR(i,1,n+1) cout<<(dis[i])<<" ";
+
+        // cout<<'\n';
+
+        //dijkstra 2
+        FOR(i,2,n+1) dis2[i]=INF;
+        priority_queue<pi,vpi,greater<pi>> q2;
+        q2.push({0,1});
+        while(!q2.empty()){
+            int u = q2.top().se; q2.pop();
+            if (vis2[u]) continue;
+            vis2[u]=1;
+            for (auto i : adj2[u]){
+                int v = i.fi;
+                int w = i.se;
+                if (dis2[v]>dis2[u]+w){
+                    dis2[v] = dis2[u]+w;
+                    q2.push({dis2[v],v});
+                }
+            }
+        }
+        // FOR(i,1,n+1) cout<<(dis2[i])<<" ";
+            cout<<min(dis[n],dis2[n])<<'\n';
     }
-  }
-};
+}     
