@@ -1,22 +1,22 @@
-const int mxN = 1e5 + 10;
+const int mxN = 3*1e5 + 10;
 template <typename T>
 struct Fenwick {
-    const int n;
-    vector<int> a;
-    Fenwick(int n) : n(n+1), a(n+1) {}
-    void add(int x, int v) {
-        for (int i = x + 1; i <= n; i += i & -i) {
-            a[i - 1] += v;
+    const ll n;
+    vector<ll> a;
+    Fenwick(ll n) : n(n+1), a(n+1) {}
+    void add(ll x, ll v) {
+        for (ll i = x + 1; i <= n; i += i & -i) {
+            a[i] += v;
         }
     }
-    T sum(int x) {
+    T sum(ll x) {
         T ans = 0;
-        for (int i = x; i > 0; i -= i & -i) {
-            ans += a[i - 1];
+        for (ll i = x; i > 0; i -= i & -i) {
+            ans += a[i];
         }
         return ans;
     }
-    T rangeSum(int l, int r) {
+    T rangeSum(ll l, ll r) {
         return sum(r) - sum(l);
     }
  
@@ -26,23 +26,28 @@ struct Fenwick {
         cout<<'\n';
     }
 };
- 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
+    ll n,q;
+    cin >> n >> q;
+    Fenwick<ll> fen(n);
     FOR(i,0,n){
-        cin >> a[i];
-        a[i]--;
+        ll x;
+        cin >> x;
+        fen.add(i,x);
     }
-
-    Fenwick<int> fen(n);
-    
     ll ans = 0;
-    FOR(i,0,n) {
-        ans += fen.rangeSum(a[i],n);
-        fen.add(a[i], 1);
+    while(q--){
+        ll num;
+        cin >> num;
+        if(num == 2){
+            ll l,r;
+            cin >> l >> r;
+            cout<<fen.rangeSum(l-1,r)<<'\n';
+        }
+        else{
+            ll a,x;
+            cin >> a >> x;
+            fen.add(a-1,x-fen.rangeSum(a-1,a));
+        }
     }
-  
-    cout << ans << "\n";
-}                 
+}       
