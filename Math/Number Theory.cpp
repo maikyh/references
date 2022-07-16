@@ -1,4 +1,4 @@
-ll mod(ll a, ll b, ll c){ // pow(a,b) % c
+ll binPow(ll a, ll b, ll c){ // pow(a,b) % c
     ll res=1;
     while(b){
         if(b&1) res=(res*a)%c;
@@ -69,6 +69,23 @@ bool isprime(ll n) {
 	  
 	return true; 
 } 
+
+vector<ll> fact(mxN+1, 1), inv(mxN+1, 1), invFact(mxN+1,1);
+void prec()
+{
+    for(ll i = 2; i < mxN; ++i)
+    {
+        fact[i] = i*fact[i-1] %MOD;
+        inv[i] = MOD - (MOD/i)*inv[MOD%i]%MOD;
+        invFact[i] = (ll)inv[i]*invFact[i-1]%MOD;
+    }
+}
+
+
+ll nCr(ll n, ll r) {
+    if(r < 0 || n < r) return 0;
+    return fact[n] * invFact[n-r] % MOD * invFact[r] % MOD;
+}
 
 //Iterar sobre Matriz en O(n);
 ///////////////////START HERE////////////////////////
