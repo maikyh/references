@@ -87,6 +87,11 @@ ll nCr(ll n, ll r) {
     return fact[n] * invFact[n-r] % MOD * invFact[r] % MOD;
 }
 
+ll nPr(ll n, ll r) {
+    if(r < 0 || n < r) return 0;
+    return fact[n] * invFact[n-r] % MOD;
+}
+
 //Iterar sobre Matriz en O(n);
 ///////////////////START HERE////////////////////////
 ll mult(vector<ll> &v){
