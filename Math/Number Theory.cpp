@@ -92,6 +92,15 @@ ll nPr(ll n, ll r) {
     return fact[n] * invFact[n-r] % MOD;
 }
 
+const int mxN = 2010; 
+int bin[mxN][mxN];
+void bino(){
+    FOR(i,0,mxN) bin[i][0] = 1;
+    FOR(i,1,mxN)
+        FOR(j,1,mxN)
+            bin[i][j] = (bin[i-1][j] + bin[i-1][j-1] % 1000000000);
+}
+
 //Iterar sobre Matriz en O(n);
 ///////////////////START HERE////////////////////////
 ll mult(vector<ll> &v){
