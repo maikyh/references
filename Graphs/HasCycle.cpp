@@ -4,8 +4,8 @@ bool hasCycleUtil(int me, vector<int> &state, vector<vector<int>> &graph){
     state[me] = 1;
 
     bool sol = false;
-    for(auto child:graph[me]){
-        sol = sol || hasCycleUtil(child, state, graph);
+    for(auto neigh:graph[me]){
+        sol = sol || hasCycleUtil(neigh, state, graph);
     }
     state[me] = 2;
     return sol;
