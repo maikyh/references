@@ -4,6 +4,11 @@
 // disc[u] = discovery time of u
 // low[u] = 'low' node of u
 
+const int mxN = 1e4 + 10;
+vi adj[mxN];
+vector<int> low,disc,ap;
+int Time = 0;
+
 int dfsAP(int u, int p) {
   int children = 0;
   low[u] = disc[u] = ++Time;
@@ -23,9 +28,34 @@ int dfsAP(int u, int p) {
 }
 
 void AP() {
-  ap = low = disc = vector<int>(adj.size());
+  ap = low = disc = vector<int>(mxN);
   Time = 0;
-  for (int u = 0; u < adj.size(); u++)
-    if (!disc[u])
+  for (int u = 0; u < mxN; u++)
+    if (!disc[u]){
       ap[u] = dfsAP(u, u) > 1; // condition #2
+    }
 }
+
+void solve(){
+    clr(adj,0);
+    ap.clear();
+    low.clear();
+    disc.clear();
+    int n,m;
+    cin >> n >> m
+    while(m--){
+        int u,v;
+        cin >> u >> v; u--; v--;
+
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+
+    AP();
+    int cnt = 0;
+    FOR(i,0,mxN){
+        if(ap[i])
+            cnt++;
+    }
+    cout<<cnt<<'\n';
+}  
