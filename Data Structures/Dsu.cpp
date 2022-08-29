@@ -1,4 +1,4 @@
-struct dsu{
+struct unionFind {
     static const int MAXN=2 * 1e5+1;
     int P[MAXN], R[MAXN];
     int _size;
@@ -44,4 +44,4 @@ struct dsu{
     int getSize() {
         return _size;
     }
-} dsu;
+};
