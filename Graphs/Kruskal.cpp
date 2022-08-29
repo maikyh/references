@@ -7,7 +7,7 @@ struct Edge {
     }
 };
 
-struct dsu{
+struct UnionFind {
     static const int MAXN=2 * 1e5+1;
     int P[MAXN], R[MAXN];
     int _size;
@@ -53,23 +53,24 @@ struct dsu{
     int getSize() {
         return _size;
     }
-} dsu;
+};
 
-vector<Edge> v;
-vector<Edge> tree;
+vt<Edge> v;
+vt<Edge> tree;
 
 int kruskal(int n, int m) { // O(ELogE + ELogV)
-    sort(v.begin(), v.end());
+    sort(all(v));
 
     int mst_w = 0;
-    dsu.init(n);
+    UnionFind uf;
+    uf.init(n);
 
     FOR(i, 0, m) {
         Edge e = v[i];
 
-        if (! dsu.same(e.from, e.to)) {
+        if (!uf.same(e.from, e.to)) {
             mst_w += e.w;
-            dsu.unify(e.from, e.to);
+            uf.unify(e.from, e.to);
             tree.pb(Edge(e.from, e.to, e.w));
         }
     }
@@ -77,7 +78,7 @@ int kruskal(int n, int m) { // O(ELogE + ELogV)
     return mst_w;
 }
 
-int main() {
+void solve(){
     int n, m;
     int a, b, c;
     cin >> n >> m;
@@ -87,6 +88,4 @@ int main() {
     }
 
     cout << kruskal(n, m) << endl;
-
-    return 0;
-}
+}  
