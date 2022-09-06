@@ -8,13 +8,13 @@ void floydWarshall(int n) { // O(n^3)
 }
 
 void solve() {
-    ll n,m,q; cin >> n >> m >> q;
     FOR(i,0,mxN){
         FOR(j,0,mxN)
             graph[i][j] = 1e18;
         graph[i][i] = 0;
     }
-
+    
+    ll n,m,q; cin >> n >> m >> q;
     while(m--){
         ll a,b,c; cin >> a >> b >> c; a--; b--;
         graph[a][b] = min(graph[a][b],c);
