@@ -28,6 +28,7 @@ void dijkstra(int s, int t, ll dist[], vpl adj[], ll par[]){ // int n, int sourc
         }
     }
 }
+
 vi restorePath(int t){
     int n = t;
 
@@ -58,4 +59,4 @@ void solve() {
         cout<<path[i]<<" ";
 
     // FOR(i,1,n+1) cout<<(dist[i])<<" ";
-}
+}   
