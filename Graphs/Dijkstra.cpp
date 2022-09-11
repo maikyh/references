@@ -12,6 +12,7 @@ void dijkstra(int s, int t, ll dist[], vpl adj[], ll par[]){ // int n, int sourc
     pq.push(pi(0, s));
     dist[s] = 0;
     par[s] = -1;
+    reached = 0;
 
     while(!pq.empty()){
         ll u = pq.top().se; pq.pop();
