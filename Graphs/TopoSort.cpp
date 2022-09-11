@@ -1,14 +1,8 @@
 const int mxN = 1e4 + 10;
 vi adj[mxN];
 int degree[mxN];
-void solve(){
-    int n,m; cin >> n >> m;
-    while(m--){
-        int u,v; cin >> u >> v; u--; v--;
-        adj[u].pb(v);
-        degree[v]++;
-    }
 
+vi toposort(int n){
     queue<int> q;
     FOR(i,0,n){
         if(degree[i] == 0)
@@ -22,7 +16,7 @@ void solve(){
         int node = q.front(); 
         q.pop();
 
-        ans.pb(node);
+        ans.pb(node+1);
         degree[node] = -1;
         cnt++;
         
@@ -31,11 +25,22 @@ void solve(){
                 q.push(neigh);
         }
     }
+    if(cnt != n)
+        return {};
+    return ans;
+}
 
-    if(cnt != n){
-        cout<<"There is no toposort"<<'\n';
-        return;
+void solve(){
+    int n,m; cin >> n >> m;
+    while(m--){
+        int u,v; cin >> u >> v; u--; v--;
+        adj[u].pb(v);
+        degree[v]++;
     }
 
-    cout<<ans<<'\n';
+    vi ans = toposort(n);
+    if(sz(ans) != n)
+        cout<<"No Toposort"<<'\n';
+    else
+        cout<<ans<<'\n';
 }   
