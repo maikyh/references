@@ -1,49 +1,41 @@
-// SPOJ TOPOSORT - AC
-// http://www.spoj.com/problems/TOPOSORT/
-#include <bits/stdc++.h>
-#define pb push_back
-#define mp make_pair
-#define fst first
-#define snd second
-#define fore(i,a,b) for(int i=a,to=b;i<to;++i)
-using namespace std;
-typedef long long ll;
+const int mxN = 1e4 + 10;
+vi adj[mxN];
+int degree[mxN];
+void solve(){
+    int n,m; cin >> n >> m;
+    while(m--){
+        int u,v; cin >> u >> v; u--; v--;
+        adj[u].pb(v);
+        degree[v]++;
+    }
 
-#define MAXN 10005
+    queue<int> q;
+    FOR(i,0,n){
+        if(degree[i] == 0)
+            q.push(i);
+    }
 
-vector<int> g[MAXN];int n;
-vector<int> tsort(){  // lexicographically smallest topological sort
-	vector<int> r;priority_queue<int> q;
-	vector<int> d(2*n,0);
-	fore(i,0,n)fore(j,0,g[i].size())d[g[i][j]]++;
-	fore(i,0,n)if(!d[i])q.push(-i);
-	while(!q.empty()){
-		int x=-q.top();q.pop();r.pb(x);
-		fore(i,0,g[x].size()){
-			d[g[x][i]]--;
-			if(!d[g[x][i]])q.push(-g[x][i]);
-		}
-	}
-	return r;  // if not DAG it will have less than n elements
-}
+    vi ans;
+    int cnt = 0;
+    
+    while(!q.empty()){
+        int node = q.front(); 
+        q.pop();
 
-int m;
+        ans.pb(node);
+        degree[node] = -1;
+        cnt++;
+        
+        for(auto &neigh : adj[node]){
+            if(--degree[neigh] == 0)
+                q.push(neigh);
+        }
+    }
 
-int main(){
-	scanf("%d%d",&n,&m);
-	while(m--){
-		int x,y;
-		scanf("%d%d",&x,&y);x--;y--;
-		g[x].pb(y);
-	}
-	vector<int> r=tsort();
-	if(r.size()<n)puts("Sandro fails.");
-	else {
-		fore(i,0,n){
-			if(i)putchar(' ');
-			printf("%d",r[i]+1);
-		}
-		puts("");
-	}
-	return 0;
-}
+    if(cnt != n){
+        cout<<"There is no toposort"<<'\n';
+        return;
+    }
+
+    cout<<ans<<'\n';
+}   
