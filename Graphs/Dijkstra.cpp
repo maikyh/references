@@ -36,6 +36,7 @@ vi restorePath(int t){
     for(int v = n; v != -1; v = par1[v]) 
         path.pb(v);
     
+    reverse(all(path));
     return path;
 }
 
@@ -43,7 +44,7 @@ void solve() {
     ll n,m; cin >> n >> m;
     while(m--) {
         ll u,v,w; cin >> u >> v >> w;
-        adj1[u].push_back(pi(v, w));
+        adj1[u].pb(pi(v,w));
         adj1[v].pb(pi(u,w));
     }
 
