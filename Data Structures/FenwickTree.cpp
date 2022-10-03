@@ -1,11 +1,11 @@
-const int mxN = 3*1e5 + 10;
+const int mxN = 3e5 + 10;
 template <typename T>
 struct Fenwick {
     const ll n;
     vector<ll> a;
-    Fenwick(ll n) : n(n+1), a(n+1) {}
+    Fenwick(ll n) : n(n+1), a(n+10) {}
     void add(ll x, ll v) {
-        for (ll i = x + 1; i <= n; i += i & -i) {
+        for (ll i = x; i < n; i += i & -i) {
             a[i] += v;
         }
     }
@@ -26,28 +26,29 @@ struct Fenwick {
         cout<<'\n';
     }
 };
-void solve(){
-    ll n,q;
-    cin >> n >> q;
-    Fenwick<ll> fen(n);
-    FOR(i,0,n){
-        ll x;
-        cin >> x;
-        fen.add(i,x);
-    }
-    ll ans = 0;
-    while(q--){
-        ll num;
-        cin >> num;
-        if(num == 2){
-            ll l,r;
-            cin >> l >> r;
-            cout<<fen.rangeSum(l-1,r)<<'\n';
+void solve(){ //1-Indexed
+    int n, tt = 0;
+    while(cin >> n && n){
+        if(tt >= 1) cout<<'\n';
+        cout<<"Case "<<++tt<<":"<<'\n';
+        Fenwick<ll> fen(n+1);
+        FOR(i,1,n+1){
+            ll x; cin >> x;
+            fen.add(i,x);
         }
-        else{
-            ll a,x;
-            cin >> a >> x;
-            fen.add(a-1,x-fen.rangeSum(a-1,a));
+        char c;
+        while(cin >> c){
+            if(c == 'E'){
+                cin >> c >> c; break;
+            }
+            else if(c == 'M'){
+                ll l,r; cin >> l >> r;
+                cout<<fen.rangeSum(l-1,r)<<'\n';
+            }
+            else{
+                ll a,x; cin >> a >> x;
+                fen.add(a,x-fen.rangeSum(a-1,a));
+            }
         }
     }
-}      
+}
