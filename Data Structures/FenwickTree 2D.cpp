@@ -3,9 +3,9 @@ template <typename T>
 struct Fenwick {
     const ll n;
     vector<vl> a;
-    Fenwick(ll n) : n(n+1), a(7,vl(n+1)) {}
+    Fenwick(ll n) : n(n+1), a(6+10,vl(n+10)) {}
     void add(ll bit, ll x, ll v) {
-        for (ll i = x + 1; i <= n; i += i & -i) {
+        for (ll i = x; i < n; i += i & -i) {
             a[bit][i] += v;
         }
     }
@@ -35,7 +35,7 @@ void solve(){
     ll len = sz(s);
     FOR(i,0,len){
         ll curr = s[i]-'0';
-        fen.add(curr,i,1);
+        fen.add(curr,i+1,1);
     }
 
     FOR(i,0,q){
@@ -50,12 +50,12 @@ void solve(){
             ll pos,newVal; cin >> pos >> newVal;
             ll cambioCon = s[pos-1]-'0';
             s[pos-1] = newVal+'0';
-            fen.add(newVal,pos-1,1-(fen.rangeSum(newVal,pos-1,pos)));
-            fen.add(cambioCon,pos-1,0-(fen.rangeSum(cambioCon,pos-1,pos)));    
+            fen.add(newVal,pos,1);
+            fen.add(cambioCon,pos,-1);    
         }
         else{
             ll gem,val; cin >> gem >> val;
             cnt[gem] = val;
         }
     }
-}
+}     
