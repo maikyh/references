@@ -26,7 +26,7 @@ struct Fenwick {
         cout<<'\n';
     }
 };
-void solve(){
+void solve(){ //1-Indexed
     ll n,q; cin >> n >> q;
     Fenwick<ll> fen(n+1);
     ll cnt[7]; FOR(i,1,6+1) cin >> cnt[i];
@@ -38,7 +38,7 @@ void solve(){
         fen.add(curr,i+1,1);
     }
 
-    FOR(i,0,q){
+    while(q--){
         ll num; cin >> num;
         if(num == 3){
             ll l,r; cin >> l >> r;
@@ -58,4 +58,4 @@ void solve(){
             cnt[gem] = val;
         }
     }
-}     
+}
