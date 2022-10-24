@@ -212,6 +212,48 @@ void sieve(int n) {
     prime[1] = prime[0] = 0;
 }
 
+vector<int> primesSieve(int n){
+	vector<bool> is(n+1, true);
+	vector<int> primes = {2};
+	is[0] = is[1] = false;
+	for(int i = 4; i <= n; i += 2) is[i] = false;
+	for(int i = 3; i <= n; i += 2){
+		if(is[i]){
+			primes.push_back(i);
+			if((long long)i*i <= n)
+				for(int j = i*i; j <= n; j += 2*i)
+					is[j] = false;
+		}
+	}
+	return primes;
+}
+
+vector<vector<int>> primeFactorsSieve(int n){
+    vector<vector<int>> primeFactors(n+1);
+    for(int p = 2; p <= n; ++p){
+        if(primeFactors[p].empty())
+            for(int j = p; j <= n; j += p)
+                primeFactors[j].push_back(p);
+    }
+    return primeFactors;
+}
+// vt<vi> v = primeFactorsSieve(1e4);
+
+vi primeFactors(int n) {
+    vi curr;
+    if(n%2 == 0) curr.pb(2);
+    while (n%2 == 0) n = n/2;
+    for (int i = 3; i <= sqrt(n); i = i+2){
+        while (n%i == 0){
+            curr.pb(i);
+            n = n/i;
+        }
+    }
+   if (n > 2) curr.pb(n);
+   erase_duplicates(curr);
+   return curr;
+}
+
 vector<lli> divsSum;
 vector<vector<int>> divs;
 void divisorsSieve(int n){
