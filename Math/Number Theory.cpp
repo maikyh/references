@@ -254,6 +254,17 @@ vi primeFactors(int n) {
    return curr;
 }
 
+vi factors(int n) {
+    vector<int> factors;
+    for (int x = 1; x * x <= n; x++)
+        if (n % x == 0) {
+            factors.push_back(x);
+            factors.push_back(n / x);
+    }
+    erase_duplicates(factors);
+    return factors;
+}
+
 vector<lli> divsSum;
 vector<vector<int>> divs;
 void divisorsSieve(int n){
