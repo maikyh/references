@@ -336,6 +336,21 @@ void solve(){
 }
 /////////////////END HERE//////////////////////////////
 
+vector<pair<ll, int>> factorize(ll n){
+    vector<pair<ll, int>> f;
+    for(ll p : primes){
+        if(p * p > n) break;
+        int pot = 0;
+        while(n % p == 0){
+            pot++;
+            n /= p;
+        }
+        if(pot) f.emplace_back(p, pot);
+    }
+    if(n > 1) f.emplace_back(n, 1);
+    return f;
+}
+
 //number of coprimes with n less than n
 lli phi(lli n){
 	lli ans = n;
