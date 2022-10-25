@@ -336,6 +336,15 @@ void solve(){
 }
 /////////////////END HERE//////////////////////////////
 
+//number of coprimes with n less than n
+lli phi(lli n){
+	lli ans = n;
+	auto f = factorize(n);
+	for(auto & factor : f)
+		ans -= ans / factor.first;
+	return ans;
+}
+
 string decimalToBaseB(lli n, lli b){
 	string ans = "";
 	lli d;
