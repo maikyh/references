@@ -228,6 +228,17 @@ vector<int> primesSieve(int n){
 	return primes;
 }
 
+//Solo sirve para sacar factores primos de un numero cuando ya se hizo una criba anteriormente:
+vector<int> getPrimes(int v) {
+	vector<int> ps;
+	while (v > 1) {
+		if (ps.empty() || ps.back() != mind[v])
+			ps.push_back(mind[v]);
+		v /= mind[v];
+	}
+	return ps;
+}
+
 vector<vector<int>> primeFactorsSieve(int n){
     vector<vector<int>> primeFactors(n+1);
     for(int p = 2; p <= n; ++p){
