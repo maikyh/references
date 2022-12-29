@@ -1,4 +1,5 @@
 //total number of subarrays having a given XOR k
+//if TLE, use vector instead of map
 #include<bits/stdc++.h>
 using namespace std;
 class Solution{
