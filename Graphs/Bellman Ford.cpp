@@ -1,67 +1,113 @@
-// UVA 11721 - AC
-// https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2768
 #include <bits/stdc++.h>
-#define pb push_back
-#define mp make_pair
-#define fst first
-#define snd second
-#define fore(i,a,b) for(int i=a,ThxDem=b;i<ThxDem;++i)
+#define endl "\n"
+#define IOS                       \
+    ios_base::sync_with_stdio(0); \
+    cin.tie(0);                   \
+    cout.tie(0);
 using namespace std;
-typedef long long ll;
 
-#define INF (1LL<<60)
-#define MAXN 1024
+// Structure to represent a weighted edge in the graph
+struct Edge {
+    int src, dest, weight;  // Source node, destination node, and weight of the edge
+};
 
-vector<int> w;
+// Structure to represent a connected, directed, and weighted graph
+struct Graph {
+    int V, E;  // Number of vertices (V) and edges (E)
 
-int n;
-vector<pair<int,int> > g[MAXN]; // u->[(v,cost)]
-ll dist[MAXN];
-void bford(int src){ // O(nm)
-	fill(dist,dist+n,INF);dist[src]=0;
-	fore(_,0,n-1)fore(x,0,n)if(dist[x]!=INF)for(auto t:g[x]){
-		dist[t.fst]=min(dist[t.fst],dist[x]+t.snd);
-	}
-	fore(x,0,n)if(dist[x]!=INF)for(auto t:g[x]){
-		if(dist[t.fst]>dist[x]+t.snd){
-			// neg cycle: all nodes reachable from t.fst have -INF distance
-			// to reconstruct neg cycle: save "prev" of each node, go up from t.fst until repeating a node. this node and all nodes between the two occurences form a neg cycle
-			w.pb(t.fst);
-		}
-	}
+    // The graph is represented as a vector of edges
+    vector<Edge>edge;
+};
+
+// Function to create a graph with V vertices and E edges
+struct Graph* createGraph(int V, int E, vector<Edge> edge)
+{
+    struct Graph* graph = new Graph;  // Allocate memory for the graph
+    graph->V = V;  // Set the number of vertices
+    graph->E = E;  // Set the number of edges
+    graph->edge = edge;  // Set the edges
+    return graph;  // Return the newly created graph
 }
 
-int m;
-bool vis[MAXN];
-
-void dfs(int x){
-	if(vis[x])return;
-	vis[x]=true;
-	for(auto p:g[x])dfs(p.fst);
+// Function to check if the graph contains any negative cycles
+// This can only be run after you run BellmanFord() on the graph
+bool hasNegativeCycles(struct Graph* graph, vector<int>& dist) {
+    int E = graph->E;
+    for (int i = 0; i < E; i++) {
+        int u = graph->edge[i].src;
+        int v = graph->edge[i].dest;
+        int weight = graph->edge[i].weight;
+        // If the distance to the source node plus the weight of the edge is less than the distance to the destination node,
+        // then a negative cycle exists
+        if (dist[u] != INT_MAX && dist[u] + weight < dist[v]) {
+            return true;
+        }
+    }
+    return false;  // No negative cycles found
 }
 
-int main(){
-	int tn;
-	scanf("%d",&tn);
-	fore(tc,1,tn+1){
-		scanf("%d%d",&n,&m);
-		fore(i,0,n)g[n].pb(mp(i,0));
-		n++;
-		while(m--){
-			int x,y,c;
-			scanf("%d%d%d",&x,&y,&c);
-			g[y].pb(mp(x,c));
-		}
-		bford(n-1);
-		memset(vis,false,sizeof(vis));
-		for(int x: w){
-			dfs(x);
-		}
-		printf("Case %d:",tc);
-		if(w.empty())puts(" impossible");
-		else {fore(i,0,n)if(vis[i])printf(" %d",i);puts("");}
-		fore(i,0,n)g[i].clear();
-		w.clear();
-	}
-	return 0;
+// Function to find the shortest distances from the source node to all other nodes using the Bellman-Ford algorithm
+vector<int> BellmanFord(struct Graph* graph, int src)
+{
+    int V = graph->V;
+    int E = graph->E;
+    vector<int> dist(V);
+
+    // Initialize distances from the source node to all other nodes as infinite
+    for (int i = 0; i < V; i++)
+        dist[i] = INT_MAX;
+    dist[src] = 0;  // The distance from the source node to itself is 0
+
+    // Relax all edges V - 1 times
+    for (int i = 1; i <= V - 1; i++) {
+        for (int j = 0; j < E; j++) {
+            int u = graph->edge[j].src;
+            int v = graph->edge[j].dest;
+            int weight = graph->edge[j].weight;
+            // If the current distance is not infinite and the distance through this edge is shorter, update the distance
+            if (dist[u] != INT_MAX && dist[u] + weight < dist[v])
+                dist[v] = dist[u] + weight;
+        }
+    }
+
+    // Check for negative-weight cycles
+    if(hasNegativeCycles(graph, dist))
+        cout<<"The graph contains a negative cycle"<<endl;
+
+    return dist;  // Return the shortest distances from the source node to all other nodes
+}
+
+int main()
+{
+    IOS;
+
+    int cases; cin>>cases;
+    while(cases--){
+        int V, E;  // Number of vertices (V) and edges (E) in the graph
+        cin>>V>>E;
+
+        vector<Edge> edge(E);  // Vector to hold the edges
+
+        // Read the edges
+        for(int i=0; i<E; i++){
+            int src, dest, weight;  // Source node, destination node, and weight of the edge
+            cin>>src>>dest>>weight;
+            Edge temp;  // Temporary edge
+            temp.src = src;
+            temp.dest = dest;
+            temp.weight = weight;
+            edge[i] = temp;  // Add the edge to the vector
+        }
+
+        Graph* graph = createGraph(V, E, edge);  // Create the graph
+    
+        vector<int> distances = BellmanFord(graph, 0);  // Find the shortest distances from the source node to all other nodes
+
+        // Print the distances
+        for(int i=0; i<distances.size(); i++){
+            cout<<"The shortest distance from node "<<i<<" to source is "<<distances[i]<<endl;
+        }
+    }
+
+    return 0;
 }
