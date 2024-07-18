@@ -23,6 +23,37 @@ int getSetBitsFromOneToN(int N)
     return ans; 
 } 
 
+void setBitsInArray(ll n, vector<int> &bits) {
+    int position = 1;
+    while (n > 0) {
+        if (n & 1) {
+            bits[position]++; // Increment the corresponding bit position in the array
+        }
+        position++;
+        n >>= 1; // Right shift the number to check the next bit
+    }
+}
+ll mulmod(ll a, ll b, ll mod)
+{
+    ll res = 0; // Initialize result
+    a = a % mod;
+    while (b > 0)
+    {
+        // If b is odd, add 'a' to result
+        if (b % 2 == 1)
+            res = (res + a) % mod;
+ 
+        // Multiply 'a' with 2
+        a = (a * 2) % mod;
+ 
+        // Divide b by 2
+        b /= 2;
+    }
+ 
+    // Return result
+    return res % mod;
+}
+
 //15
 long computeXOR(int n)
 {
