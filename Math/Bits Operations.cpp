@@ -33,7 +33,13 @@ for(int k = 31;k>=0;k--){
 //x | (1 << k) set bit en posicion k en 1 de x
 //x & ~(1 << k) set bit en posicion k en 0 de x
 //x ^ (1<<k) invierte kth bit de x
-
+//x & (x-1) set last one bit of x to zero
+//x | (x-1) inverts all the bits after the last one bit
+//x & (x-1) =0 check if x is power of two
+//__builtin_clz(x): the number of zeros at the beginning of the bit representation
+//__builtin_ctz(x): the number of zeros at the end of the bit representation
+//__builtin_popcount(x): the number of ones in the bit representation
+//__builtin_parity(x): check parity of the number of ones in the bit representation
 long long binpow(long long a, long long b, long long m) {
     a %= m;
     long long res = 1;
