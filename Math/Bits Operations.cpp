@@ -22,6 +22,15 @@ int getSetBitsFromOneToN(int N)
     } 
     return ans; 
 } 
+//check si bit esta prendido en posicion k
+for(int k = 31;k>=0;k--){
+        if(n & (1<<k)){
+            cout << "1";
+        }else{
+            cout << "0";
+        }
+}
+
 long long binpow(long long a, long long b, long long m) {
     a %= m;
     long long res = 1;
