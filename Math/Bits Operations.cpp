@@ -30,6 +30,9 @@ for(int k = 31;k>=0;k--){
             cout << "0";
         }
 }
+//x | (1 << k) set bit en posicion k en 1 de x
+//x & ~(1 << k) set bit en posicion k en 0 de x
+//x ^ (1<<k) invierte kth bit de x
 
 long long binpow(long long a, long long b, long long m) {
     a %= m;
