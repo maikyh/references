@@ -42,6 +42,7 @@ void init(int node,int b,int e,vector<ll> &tree,vector<int> &v,vector<int>&euler
 
 void update(int node,int b,int e,int i,int j,ll color,vector<ll>&tree,vector<ll>&lazy){
     push(node,lazy,tree);
+    //updates en segmentos evitar solapamiento
     if(b>j || e<i){
         return;
     }
@@ -54,7 +55,7 @@ void update(int node,int b,int e,int i,int j,ll color,vector<ll>&tree,vector<ll>
     int m = (b+e)/2;
     int l = 2*node+1;
     int r = l+1;
-
+    //updates en segmentos evitar solapamiento por eso no funciona lo comentado de abajo en *updates*
     update(l,b,m,i,j,color,tree,lazy);
     update(r,m+1,e,i,j,color,tree,lazy);
     // if(j<=m){
