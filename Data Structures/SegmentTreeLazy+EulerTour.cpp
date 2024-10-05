@@ -55,16 +55,16 @@ void update(int node,int b,int e,int i,int j,ll color,vector<ll>&tree,vector<ll>
     int l = 2*node+1;
     int r = l+1;
 
-    // update(l,b,m,i,j,color,tree,lazy);
-    // update(r,m+1,e,i,j,color,tree,lazy);
-    if(j<=m){
-        update(l,b,m,i,j,color,tree,lazy);
-    }else if(i>m){
-        update(r,m+1,e,i,j,color,tree,lazy);
-    }else{
-        update(l,b,m,i,j,color,tree,lazy);
-        update(r,m+1,e,i,j,color,tree,lazy);        
-    }
+    update(l,b,m,i,j,color,tree,lazy);
+    update(r,m+1,e,i,j,color,tree,lazy);
+    // if(j<=m){
+    //     update(l,b,m,i,j,color,tree,lazy);
+    // }else if(i>m){
+    //     update(r,m+1,e,i,j,color,tree,lazy);
+    // }else{
+    //     update(l,b,m,i,j,color,tree,lazy);
+    //     update(r,m+1,e,i,j,color,tree,lazy);        
+    // }
     tree[node] = tree[l] | tree[r];
 
 }
