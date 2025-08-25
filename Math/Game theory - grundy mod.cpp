@@ -11,10 +11,6 @@ int grundy_mod_for_subtraction_game(vector<int> moves) {
 }
 
 void solve(){
-    vi moves;
-    FOR(i,0,1e9+1){
-
-    }
     vi moves = {1,2,3};
 
     int grundy = grundy_mod_for_subtraction_game(moves);
