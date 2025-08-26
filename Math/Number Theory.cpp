@@ -92,6 +92,51 @@ ll nPr(ll n, ll r) {
     return fact[n] * invFact[n-r] % MOD;
 }
 
+// Expected minimum (mod MOD) of a random size-k subset (without replacement)
+// from 'vals'. Works with any values (unsorted). Requires nCr() and MOD.
+ll expected_min_mod(vector<ll> vals, ll k) {
+    const int n = (int)vals.size();
+    if (k < 1 || k > n) return 0;
+
+    sort(vals.begin(), vals.end());           // ascending
+    ll denom = nCr(n, k);                     // C(n, k)
+    ll invDen = power(denom, MOD - 2);       // denom^{-1} mod MOD
+
+    ll acc = 0;                               // sum of d_j * C(n-1-j, k-1)
+    for (int j = 0; j < n; ++j) {
+        int right = n - 1 - j;                // elements strictly larger than vals[j]
+        ll ways = nCr(right, k - 1);          // choose k-1 among the right ones s.t. vals[j] is the min
+        if (ways == 0) break;                 // later j also have 0 ways
+        ll dj = ( (vals[j] % MOD) + MOD ) % MOD;
+        acc += dj * ways % MOD;
+        if (acc >= MOD) acc -= MOD;
+    }
+    return acc * invDen % MOD;
+}
+
+long double expected_min_real(vector<long double> vals, int k) {
+    int n = (int)vals.size();
+    if (!(1 <= k && k <= n)) return 0.0L;
+    sort(vals.begin(), vals.end());
+
+    auto lC = [](int N, int R) -> long double {
+        if (R < 0 || R > N) return 0.0L;
+        // log C(N,R) via log-gamma
+        return expl(lgammal(N+1) - lgammal(R+1) - lgammal(N-R+1));
+    };
+
+    long double denom = lC(n, k);
+    long double acc = 0.0L;
+    for (int j = 0; j < n; ++j) {
+        int right = n - 1 - j;
+        long double ways = lC(right, k-1);
+        if (ways == 0.0L) break;
+        acc += vals[j] * (ways / denom);
+    }
+    return acc;
+}
+
+
 const int mxN = 2010; 
 int bin[mxN][mxN];
 void bino(){
